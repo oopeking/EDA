@@ -1,0 +1,17 @@
+totaldata=read.table("exdata_data_household_power_consumption.txt",header=TRUE,sep=";",stringsAsFactor=FALSE)
+data=subset(totaldata,Date=="1/2/2007" | Date=="2/2/2007")
+par(mfrow = c(2,2), mar = c(1, 4, 2, 1), oma = c(0, 0, 2, 0))
+date=strptime(paste(data$Date,data$Time),format="%d/%m/%Y %H:%M:%S")
+with(data, {
+  plot(x=date, y=as.numeric(data$Global_active_power),ylab="Global Active Power",type="l")
+  plot(x=date, y=as.numeric(data$Voltage),ylab="Voltage",xlab="datetime",type="l")
+  with(data,{
+    plot(x=date,y=as.numeric(data$Sub_metering_1),col="black",ylab="Energy sub metering",xlab="",type="l")
+    lines(x=date,y=as.numeric(data$Sub_metering_2),col="red",type="l")
+    lines(x=date,y=as.numeric(data$Sub_metering_3),col="blue",type="l")
+    legend("topright", lty=par("lty"), seg.len=3,col = c("black", "red","blue"), legend = c("Sub_metering_1", "Sub_metering_2","Sub_metering_3"))
+    })
+  plot(x=date,y=as.numeric(data$Global_reactive_power),ylab="Global_reactive_power",xlab="datetime",type="l")
+})
+dev.copy(png,file="plot4.png")
+dev.off()

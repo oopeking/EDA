@@ -1,0 +1,10 @@
+totaldata=read.table("exdata_data_household_power_consumption.txt",header=TRUE,sep=";",stringsAsFactor=FALSE)
+data=subset(totaldata,Date=="1/2/2007" | Date=="2/2/2007")
+with(data,{
+plot(x=strptime(paste(data$Date,data$Time),format="%d/%m/%Y %H:%M:%S"),y=as.numeric(data$Sub_metering_1),col="black",ylab="Energy sub metering",xlab="",type="l")
+lines(x=strptime(paste(data$Date,data$Time),format="%d/%m/%Y %H:%M:%S"),y=as.numeric(data$Sub_metering_2),col="red",type="l")
+lines(x=strptime(paste(data$Date,data$Time),format="%d/%m/%Y %H:%M:%S"),y=as.numeric(data$Sub_metering_3),col="blue",type="l")
+legend("topright", lty=par("lty"), seg.len=3,col = c("black", "red","blue"), legend = c("Sub_metering_1", "Sub_metering_2","Sub_metering_3"))
+})
+dev.copy(png,file="plot3.png")
+dev.off()
